@@ -1,57 +1,81 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  useSignInWithEmailAndPassword,
+  useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
+  useUpdateProfile,
 } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [signInWithGoogle, googleUser, googleLoading, googleError] =
-    useSignInWithGoogle(auth);
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+const Signup = () => {
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+
   const navigate = useNavigate();
-  const location = useLocation();
-  let from = location.state?.from?.pathname || '/';
-
-  useEffect(() => {
-    if (user || googleUser) {
-      navigate(from, { replace: true });
-    }
-  }, [user, googleUser, from, navigate]);
-
-  if (loading || googleLoading) {
-    return <Loading></Loading>;
-  }
 
   let signInError;
 
-  if (error || googleError) {
+  if (loading || gLoading) {
+    return <Loading></Loading>;
+  }
+
+  if (error || gError) {
     signInError = (
       <p className='text-red-500'>
-        <small>{error?.message || googleError?.message}</small>
+        <small>{error?.message || gError?.message}</small>
       </p>
     );
   }
 
+  if (user || gUser) {
+    console.log(user || gUser);
+  }
+
   const onSubmit = (data) => {
-    signInWithEmailAndPassword(data.email, data.password);
+    createUserWithEmailAndPassword(data.email, data.password);
+
+    console.log('update done');
+    navigate('/appointment');
   };
 
   return (
     <div className='flex h-screen justify-center items-center'>
       <div className='card w-96 bg-base-100 shadow-xl'>
         <div className='card-body'>
-          <h2 className='text-center text-2xl font-bold'>Login</h2>
+          <h2 className='text-center text-2xl font-bold'>Sign Up</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className='form-control w-full max-w-xs'>
+              <label className='label'>
+                <span className='label-text'>Name</span>
+              </label>
+              <input
+                type='text'
+                placeholder='Your Name'
+                className='input input-bordered w-full max-w-xs'
+                {...register('name', {
+                  required: {
+                    value: true,
+                    message: 'Name is Required',
+                  },
+                })}
+              />
+              <label className='label'>
+                {errors.name?.type === 'required' && (
+                  <span className='label-text-alt text-red-500'>
+                    {errors.name.message}
+                  </span>
+                )}
+              </label>
+            </div>
+
             <div className='form-control w-full max-w-xs'>
               <label className='label'>
                 <span className='label-text'>Email</span>
@@ -121,14 +145,14 @@ const Login = () => {
             <input
               className='btn w-full max-w-xs text-white'
               type='submit'
-              value='Login'
+              value='Sign Up'
             />
           </form>
           <p>
-            <small className="flex justify-center">
-              New to todo app?{' '}
-              <Link className='text-primary' to='/signup'>
-                Create New Account
+            <small>
+              Already have an account?{' '}
+              <Link className='text-primary' to='/login'>
+                Please login
               </Link>
             </small>
           </p>
@@ -145,4 +169,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;
