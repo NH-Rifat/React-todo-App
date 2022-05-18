@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../../firebase.init';
 import SingleTask from './SingleTask/SingleTask';
 
 const Tasks = () => {
   const [todos, setTodos] = useState([]);
+  const [user] = useAuthState(auth);
+  // const hasUser = !user;
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/todos`)
+  //     .then((res) => res.json())
+  //     .then((data) => setTodos(data));
+  // }, [hasUser]);
+
 
   useEffect(() => {
-    fetch(`http://localhost:5000/todos`)
+    const email = user?.email;
+    fetch(`http://localhost:5000/todos?email=${email}`)
       .then((res) => res.json())
       .then((data) => setTodos(data));
-  }, [todos]);
+  }, [user,todos]);
   // console.log(todos);
 
   const handleDelete = (todoId) => {
