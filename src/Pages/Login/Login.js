@@ -125,7 +125,7 @@ const Login = () => {
             />
           </form>
           <p>
-            <small className="flex justify-center">
+            <small className='flex justify-center'>
               New to todo app?{' '}
               <Link className='text-primary' to='/signup'>
                 Create New Account
