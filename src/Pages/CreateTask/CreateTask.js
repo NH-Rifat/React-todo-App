@@ -67,7 +67,7 @@ const CreateTask = () => {
             </div>
 
             <input
-              className='btn w-full max-w-xs text-white capitalize font-semibold text-lg'
+              className='btn w-full max-w-xs text-white capitalize font-semibold text-lg '
               type='submit'
               value='Create'
               

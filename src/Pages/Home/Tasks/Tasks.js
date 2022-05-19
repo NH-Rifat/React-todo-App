@@ -39,6 +39,7 @@ const Tasks = () => {
       }
     }
   };
+
   return (
     <div className='w-3/4 mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
       {todos.map((todo) => (
