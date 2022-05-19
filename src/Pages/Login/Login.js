@@ -24,7 +24,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user || googleUser) {
-      navigate(from, { replace: true });
+      navigate('/');
     }
   }, [user, googleUser, from, navigate]);
 

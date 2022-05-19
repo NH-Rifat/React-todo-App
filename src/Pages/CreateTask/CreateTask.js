@@ -1,34 +1,36 @@
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateTask = () => {
   const [user] = useAuthState(auth);
-  const handleAddTodo=(event)=>{
+  const handleAddTodo = (event) => {
     event.preventDefault();
     // console.log('handle add car');
     const todo = {
       task: event.target.name.value,
       description: event.target.description.value,
-      start:event.target.start.value,
-      end:event.target.end.value,
+      start: event.target.start.value,
+      end: event.target.end.value,
       email: user?.email,
     };
     event.target.reset();
     // console.log(todo);
 
     if (todo) {
-      fetch(`http://localhost:5000/todo`, {
+      fetch(`https://intense-citadel-96071.herokuapp.com/todo`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(todo),
       })
         .then((res) => res.json())
         .then((data) => console.log(data));
+      toast('Todo created successfully');
     }
-
-
-  }
+  };
   return (
     <div className='flex justify-center items-center mb-16'>
       <div className='card w-96 bg-base-100 shadow-xl'>
@@ -70,9 +72,9 @@ const CreateTask = () => {
               className='btn w-full max-w-xs text-white capitalize font-semibold text-lg '
               type='submit'
               value='Create'
-              
             />
           </form>
+          <ToastContainer></ToastContainer>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import {
   useCreateUserWithEmailAndPassword,
   useSignInWithGoogle,
-  useUpdateProfile,
 } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 import { useForm } from 'react-hook-form';
@@ -36,14 +35,13 @@ const Signup = () => {
   }
 
   if (user || gUser) {
-    console.log(user || gUser);
+    // console.log(user || gUser);
+    
   }
 
   const onSubmit = (data) => {
     createUserWithEmailAndPassword(data.email, data.password);
-
-    console.log('update done');
-    navigate('/appointment');
+    navigate('/');
   };
 
   return (

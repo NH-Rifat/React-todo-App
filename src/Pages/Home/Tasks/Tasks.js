@@ -9,26 +9,25 @@ const Tasks = () => {
   // const hasUser = !user;
 
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/todos`)
+  //   fetch(`https://intense-citadel-96071.herokuapp.com/todos`)
   //     .then((res) => res.json())
   //     .then((data) => setTodos(data));
-  // }, [hasUser]);
-
+  // }, [todos]);
 
   useEffect(() => {
     const email = user?.email;
-    fetch(`http://localhost:5000/todos?email=${email}`)
+    fetch(`https://intense-citadel-96071.herokuapp.com/todos?email=${email}`)
       .then((res) => res.json())
       .then((data) => setTodos(data));
-  }, [user,todos]);
-  // console.log(todos);
+  }, [user, todos]);
+  console.log(todos);
 
   const handleDelete = (todoId) => {
     // console.log(todoId);
     if (todoId) {
       const confirmation = window.confirm('Are you Sure to Delete?');
       if (confirmation) {
-        fetch(`http://localhost:5000/todos/${todoId}`, {
+        fetch(`https://intense-citadel-96071.herokuapp.com/todos/${todoId}`, {
           method: 'DELETE',
         })
           .then((res) => res.json())
@@ -41,7 +40,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className='w-3/4 mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
+    <div className='w-3/4 mx-auto grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-28'>
       {todos.map((todo) => (
         <SingleTask
           key={todo._id}
